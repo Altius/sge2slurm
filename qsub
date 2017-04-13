@@ -44,6 +44,8 @@ slurm_group = parser.add_argument_group(title="SLURM passthrough options")
 slurm_group.add_argument("--mem-per-cpu", action = "store", type = str, help = "[%(default)s]")
 slurm_group.add_argument("--mem", action = "store", type = str, help = "[%(default)s]")
 slurm_group.add_argument("--share", action = "store_true", default = False, help = "[%(default)s]")
+slurm_group.add_argument("--cpus-per-task", action = "store", type = str, help = "[%(default)s]")
+slurm_group.add_argument("--mincpus", action = "store", type = str, help = "[%(default)s]")
 
 qsub_group = parser.add_argument_group(title="qsub SGE->SLURM options")
 qsub_group.add_argument("--verbose", action='store_true', default=False, help = "Verbose mode")
@@ -192,7 +194,11 @@ if args.mem is not None:
 if args.mem_per_cpu is None and args.mem is None:
     theCmd += " --mem-per-cpu=16000"
     
-
+if args.cpus_per_task is not None:
+       theCmd += " --cpus-per-task=" + args.cpus_per_task
+       
+if args.mincpus is not None:
+       theCmd += " --mincpus=" + args.mincpus
 
 if args.share is not None:
        theCmd += " --share"
